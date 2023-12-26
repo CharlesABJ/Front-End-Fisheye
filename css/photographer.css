@@ -1,3 +1,7 @@
+main {
+    margin: 0 100px;
+}
+
 #contact_modal {
     display: none;
 }
@@ -5,8 +9,72 @@
 .photograph-header {
     background-color: #FAFAFA;
     height: 300px;
-    margin: 0 100px;
+    padding: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
+
+.photograph-header .presentation h2 {
+    color: #D3573C;
+    font-size: 64px;
+    margin: 0;
+}
+
+.photograph-header .presentation h3 {
+    color: #901C1C;
+    font-size: 24px;
+    margin: 1rem 0 1.5rem;
+}
+
+.photograph-header .presentation p {
+    color: #525252;
+    font-size: 18px;
+}
+
+.photograph-header .profile {
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+}
+
+.photograph-header .profile img {
+    border-radius: 50%;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+
+.gallery-cards {
+    display: flex;
+    gap: 3rem 2rem;
+    margin: 2rem;
+
+}
+
+.gallery-cards .card {
+    width: 350px;
+    height: 300px;
+}
+
+.gallery-cards .card img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.gallery-cards .card .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #901C1C;
+    font-size: 24px;
+
+}
+
+
 
 .contact_button {
     font-size: 20px;
