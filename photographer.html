@@ -3,10 +3,12 @@
 
 <head>
   <link href="css/style.css" rel="stylesheet" type="text/css" />
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/photographer.css">
+  <script src="https://kit.fontawesome.com/17add87f34.js" crossorigin="anonymous"></script>
 
   <meta name="description" content="Fisheye, retrouvez de talentueux photographes">
   <title>Fisheye - photographe </title>
@@ -15,66 +17,68 @@
 
 <body>
   <header>
-    <a href="index.html"> <img src="assets/images/logo.png" class="logo" /></a>
+    <a href="index.html"> <img src="assets/images/logo.png" class="logo" alt="Fisheye Home page" /></a>
   </header>
   <main id="main">
     <div class="photograph-header">
-      <!-- <div class="presentation"> -->
-      <!-- <h3>Mimi Keel</h3>
-        <h4>London, UK</h4>
-        <p>Voir le beau dans le quotidien</p>
+      <!-- Afficher dynamiquement le header du photographe ici -->
+    </div>
+    <section id="photograph-medias">
+      <div class="tri-selector">
+        <h3>Trier par</h3>
+        <select name="" id="critere-tri">
+          <option value="popularité">Popularité</option>
+          <option value="date">Date</option>
+          <option value="titre">Titre</option>
+        </select>
       </div>
-      <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
-      <div class="profile">
-        <img src="./assets/photographers/MimiKeel.jpg" alt="">
-      </div> -->
-
-
-    </div>
-    <h3>Trier par</h3>
-    <select name="" id="">
-      <option value="popularité">Popularité</option>
-      <option value="date">Date</option>
-      <option value="titre">Titre</option>
-    </select>
-    <div class="gallery-cards">
-      <!-- <div class="card">
-
-        <img src="./assets/photographers/sport_water_tunnel.jpg" alt="">
-
-        <div class="content">
-          <h5>Arc-en-cie</h5>
-          <span>❤️</span>
-        </div>
-      </div> -->
-    </div>
+      <div class="gallery-cards">
+        <!-- Afficher dynamiquement la gallery de photos/vidéos du photographe ici -->
+      </div>
+    </section>
   </main>
-  <div id="contact_modal">
+  <div id="contact_modal" class="modal-container">
+    <div class="overlay"></div>
     <div class="modal">
-      <header>
+      <div class="top">
         <h2>Contactez-moi</h2>
-        <img src="assets/icons/close.svg" onclick="closeModal()" />
-      </header>
-      <main>
-        <h3>Trier par </h3>
+        <img src="assets/icons/close.svg" />
+      </div>
 
-        <div class="gallery">
+      <form>
+        <!-- input avec regex pattern -->
 
-        </div>
-        <form>
-          <div>
-            <label>Prénom</label>
-            <input />
-          </div>
-          <button class="contact_button">Envoyer</button>
-        </form>
-      </main>
+        <label for="firstname">Prénom</label>
+        <input name="Prénom" type="text" pattern="([A-ÿ]{2,18}([ ][A-ÿ]{2,18})*)" id="firstname" required />
+        <label for="name">Nom</label>
+        <input name="Nom" type="text" pattern="([A-ÿ]{2,18}([ ][A-ÿ]{2,18})*)" id="name" required />
+        <label for="mail">Email</label>
+        <input name="Email" type="email" pattern="[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*@[a-zA-Z]+(\.[a-zA-Z]+)*" id="mail"
+          required />
+        <label for="message">Votre message</label>
+        <textarea name="Message" id="message" required></textarea>
+
+        <button type="submit" class="contact_button2">Envoyer</button>
+      </form>
+
+
+
     </div>
   </div>
 
-  <script src="/scripts/utils/contactForm.js"></script>
-  <script src="/scripts/templates/photographerPage.js"></script>
+  <div id="gallery-modal" class="modal-container">
+    <div class="overlay"></div>
+    <div class="modal">
+      <i class="fa-solid fa-xmark close-media"></i>
+      <i class="fa-solid fa-chevron-left prev-media"></i>
+      <i class="fa-solid fa-chevron-right next-media"></i>
+
+    </div>
+  </div>
+
+  <script src="/scripts/templates/_photographerSinglePage.js"></script>
   <script src="/scripts/pages/photographer.js"></script>
+  <script src="/scripts/utils/contactForm.js"></script>
 
 </body>
 

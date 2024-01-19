@@ -1,134 +1,229 @@
-main {
-    margin: 0 100px;
+body {
+    position: relative;
 }
 
-#contact_modal {
-    display: none;
+body.modal-is-open {
+    overflow: hidden;
 }
 
+/* Photographer Header */
 .photograph-header {
     background-color: #FAFAFA;
     height: 300px;
-    padding: 50px;
+    padding: 4rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
+.photograph-header .presentation {
+    width: 100%;
+}
+
 .photograph-header .presentation h2 {
-    color: #D3573C;
-    font-size: 64px;
+    color: var(--secondary-color);
+    font-size: 4rem;
     margin: 0;
 }
 
 .photograph-header .presentation h3 {
-    color: #901C1C;
-    font-size: 24px;
+    color: var(--primary-color);
+    ;
+    font-size: 1.5rem;
     margin: 1rem 0 1.5rem;
 }
 
 .photograph-header .presentation p {
     color: #525252;
-    font-size: 18px;
+    font-size: 1.125rem;
 }
 
-.photograph-header .profile {
-    border-radius: 50%;
-    height: 200px;
-    width: 200px;
-}
-
-.photograph-header .profile img {
-    border-radius: 50%;
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
-}
-
-
-.gallery-cards {
-    display: flex;
-    gap: 3rem 2rem;
-    margin: 2rem;
-
-}
-
-.gallery-cards .card {
-    width: 350px;
-    height: 300px;
-}
-
-.gallery-cards .card img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 5px;
-}
-
-.gallery-cards .card .content {
+.photograph-header .profil-and-contact {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #901C1C;
-    font-size: 24px;
-
+    width: 100%;
 }
 
-
-
-.contact_button {
-    font-size: 20px;
+.photograph-header .profil-and-contact .contact_button {
+    font-size: 1.25rem;
     font-weight: bold;
     color: white;
     padding: 11px;
     width: 170px;
     height: 70px;
     border: none;
-    background-color: #901C1C;
+    background-color: var(--primary-color);
     border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+.photograph-header .profil-and-contact .contact_button:hover {
+    transform: scale(1.01);
+    background-color: var(--secondary-color);
+}
+
+.photograph-header .profil-and-contact .contact_button:active {
+    background-color: var(--primary-color);
+}
+
+.photograph-header .profil-and-contact .profile {
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+}
+
+.photograph-header .profil-and-contact .profile img {
+    border-radius: 50%;
+}
+
+
+/* Photographer Medias */
+
+#photograph-medias {
+    margin-block: 2rem;
+    margin-inline: 4rem;
+}
+
+#photograph-medias .tri-selector {
+    font-size: 1.125rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+#photograph-medias .tri-selector select {
+    font-size: 1.125rem;
+    padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+    color: #fff;
+    background: var(--primary-color);
+    border-radius: 5px;
+    border: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    position: relative;
     cursor: pointer;
 }
 
-.modal {
+
+#photograph-medias .tri-selector select:after {
+    content: '^';
+    position: absolute;
+    color: green;
+    top: 0;
+
+}
+
+#photograph-medias .tri-selector select:focus {
+    outline: 2px var(--secondary-color) solid;
+}
+
+
+#photograph-medias .gallery-cards {
+    display: grid;
+    gap: 3rem 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    margin-block: 2rem;
+}
+
+#photograph-medias .gallery-cards .card {
+    height: 450px;
+    cursor: pointer;
+}
+
+#photograph-medias .gallery-cards .card .cover {
+    height: 85%;
+}
+
+#photograph-medias .gallery-cards .card .cover img,
+#photograph-medias .gallery-cards .card .cover video {
+    border-radius: 5px;
+    transition: 0.3s ease-in-out;
+}
+
+#photograph-medias .gallery-cards .card .cover img:hover,
+#photograph-medias .gallery-cards .card .cover video:hover {
+    border-radius: 0;
+}
+
+#photograph-medias .gallery-cards .card .content {
+    height: 15%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+
+/* Photographe modal */
+.modal-container {
+    position: fixed;
+    inset: 0;
+    height: 100vh;
+    width: 100vw;
+    display: none;
+}
+
+.modal-container .overlay {
+    background: #c4c4c46e;
+    position: absolute;
+    inset: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
+#contact_modal .modal {
+    position: absolute;
     border-radius: 5px;
     background-color: #DB8876;
     width: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding: 35px;
-    margin: auto;
+    z-index: 5;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: max-content;
 }
 
-.modal header {
+#contact_modal .modal .top {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
     width: 100%;
+    padding: 2rem;
 }
 
-.modal header img {
-    cursor: pointer;
-}
-
-.modal header h2 {
+#contact_modal .modal .top h2 {
     font-size: 64px;
     font-weight: normal;
     text-align: center;
 }
 
-form {
+#contact_modal .modal .top img {
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+}
+
+#contact_modal form {
+    height: 100%;
     display: flex;
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
+    padding: 0 2rem;
 }
 
-form label {
+#contact_modal form label {
     color: #312E2E;
-    font-size: 36px;
+    font-size: 2.25rem;
 }
 
-form div {
+#contact_modal form div {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -136,9 +231,195 @@ form div {
     margin-bottom: 26px;
 }
 
-form input {
+#contact_modal form input,
+#contact_modal form textarea {
     width: 100%;
-    height: 68px;
     border: none;
     border-radius: 5px;
+    padding: 1rem;
+    font-size: 2rem;
+}
+
+#contact_modal form input:focus,
+#contact_modal form textarea:focus {
+    outline: 2px solid var(--primary-color);
+}
+
+#contact_modal form input {
+    height: 4.25rem;
+}
+
+#contact_modal form textarea {
+    height: 10.615rem;
+    resize: none;
+}
+
+#contact_modal form button {
+    background: var(--primary-color);
+    border: none;
+    margin-block: 1rem 2rem;
+    color: #fff;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#gallery-modal .modal {
+    position: absolute;
+    border-radius: 5px;
+    background-color: #ffffff;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 95%;
+}
+
+
+#gallery-modal i {
+    position: absolute;
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+
+#gallery-modal i.close-media {
+    top: 5%;
+    right: 10%;
+}
+
+#gallery-modal i.prev-media {
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+}
+
+#gallery-modal i.next-media {
+    top: 50%;
+    right: 10%;
+    transform: translateY(-50%);
+}
+
+
+#gallery-modal .card {
+    position: relative;
+    width: 70%;
+    height: 90%;
+    justify-content: center;
+    align-items: center;
+    display: none;
+
+}
+
+
+#gallery-modal .card.media-active-in-modal {
+    display: block;
+}
+
+#gallery-modal .card .cover {
+    width: 100%;
+    height: 92%;
+}
+
+#gallery-modal .card .content {
+    width: 100%;
+    height: 8%;
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+#gallery-modal .card .content span,
+#gallery-modal .card .content i {
+    display: none;
+}
+
+#gallery-modal .card .cover img {
+    /* object-fit: contain; */
+}
+
+@media screen and (max-width: 1071px) {
+    .photograph-header .profil-and-contact {
+        flex-direction: column-reverse;
+        align-items: end;
+        gap: 1rem;
+    }
+
+    .photograph-header .profil-and-contact .contact_button {
+        width: max-content;
+        height: max-content;
+    }
+
+    .photograph-header .profil-and-contact .profile {
+        width: 150px;
+        height: 150px;
+    }
+
+    #photograph-medias .gallery-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #photograph-medias .gallery-cards .card {
+        height: 360px;
+    }
+}
+
+
+@media screen and (max-width: 770px) {
+    .photograph-header {
+        flex-direction: column-reverse;
+        padding: 2rem 1rem;
+        height: max-content;
+        gap: 1rem;
+    }
+
+    .photograph-header .presentation {
+        text-align: center;
+    }
+
+    .photograph-header .presentation h2 {
+        font-size: 1.5rem;
+    }
+
+    .photograph-header .presentation h3 {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+
+    .photograph-header .presentation p {
+        font-size: 1rem;
+    }
+
+    .photograph-header .profil-and-contact {
+        align-items: center;
+    }
+
+    .photograph-header .profil-and-contact .contact_button {
+        font-size: 1rem;
+    }
+
+
+    #photograph-medias {
+        margin-inline: 1rem;
+    }
+
+    #photograph-medias .tri-selector,
+    #photograph-medias .tri-selector select {
+        font-size: 1rem;
+
+    }
+
+    #photograph-medias .gallery-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+.modal-is-open {
+    display: block !important;
 }
