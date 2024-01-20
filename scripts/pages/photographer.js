@@ -68,7 +68,12 @@ function trieMedias() {
       console.log(critereTri.value);
       break;
   }
+  const mediasOfGalleryCloneInModal = document.querySelectorAll(
+    "#gallery-modal .modal .card"
+  );
+  mediasOfGalleryCloneInModal.forEach((media) => media.remove());
   displayPhotographerMedia(medias, id);
+  handleCarrousel();
 }
 
 async function init() {
@@ -81,6 +86,7 @@ async function init() {
   const mediaFactory = new MediaFactory();
   const media = mediaFactory.getMedia("img.jpg", "image");
   await displayPhotographerMedia(medias, id);
+  handleLikes();
   handleModal();
   handleCarrousel();
 }
@@ -98,22 +104,34 @@ function getSelectedMedia() {
 init();
 
 // Mise en place de la logique de like
-const likesCounter = document.querySelectorAll(
-  "#photograph-medias .gallery-cards .card .counter"
-);
-const likes = document.querySelectorAll(
-  "#photograph-medias .gallery-cards .card .fa-solid.fa-heart"
-);
-likes.forEach((like) =>
-  like.addEventListener("click", function (e) {
-    e.preventDefault();
-    likesCounter.forEach((counter) => {
-      if (counter.getAttribute("data-id") === like.getAttribute("data-id")) {
-        counter.innerHTML++;
-      }
-    });
-  })
-);
+function handleLikes() {
+  const likesCounter = document.querySelectorAll(
+    "#photograph-medias .gallery-cards .card .counter"
+  );
+  const likes = document.querySelectorAll(
+    "#photograph-medias .gallery-cards .card .fa-solid.fa-heart"
+  );
+
+  likes.forEach((like) =>
+    like.addEventListener("click", function () {
+      likesCounter.forEach((counter) => {
+        if (counter.getAttribute("data-id") === like.getAttribute("data-id")) {
+          counter.innerHTML++;
+
+          // Vérification si le nombre de likes se termine par 9
+          if (
+            (counter.innerHTML - 99) % 100 === 0 ||
+            counter.innerHTML % 100 === 0
+          ) {
+            like.classList.add("special");
+          } else {
+            like.classList.remove("special");
+          }
+        }
+      });
+    })
+  );
+}
 
 //Mise en place du carrousel
 function handleCarrousel() {
@@ -135,9 +153,11 @@ function handleCarrousel() {
 
   //Ouvrir la modale
   for (let trigger of modalTriggers) {
-    trigger.addEventListener("click", function () {
-      body.classList.add("modal-is-open");
-      galleryModalContainer.classList.add("modal-is-open");
+    trigger.addEventListener("click", function (e) {
+      if (!e.target.classList.contains("fa-heart")) {
+        body.classList.add("modal-is-open");
+        galleryModalContainer.classList.add("modal-is-open");
+      }
     });
   }
 
@@ -220,8 +240,21 @@ function handleCarrousel() {
       case "ArrowLeft":
         prevMedia();
         break;
+      case "ArrowUp":
+        prevMedia();
+        break;
       case "ArrowRight":
         nextMedia();
+        break;
+      case "ArrowDown":
+        nextMedia();
+        break;
+      case "Space":
+        nextMedia();
+        break;
+      case "Enter":
+        nextMedia();
+        break;
       default:
         break;
     }

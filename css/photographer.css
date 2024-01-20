@@ -156,6 +156,19 @@ body.modal-is-open {
     font-size: 1.5rem;
 }
 
+#photograph-medias .gallery-cards .card .content p i:active {
+    transform: scale(1.25);
+    transition: rotate 3.5s ease-in-out;
+}
+
+#photograph-medias .gallery-cards .card .content p i.special {
+    transition: 1.3s;
+}
+
+#photograph-medias .gallery-cards .card .content p i.special:active {
+    transform: scale(1.25) rotate(-360deg);
+    transition: rotate 3.5s ease-in-out;
+}
 
 /* Photographe modal */
 .modal-container {
