@@ -22,7 +22,7 @@ function photographerHeaderTemplate(data) {
 
 // Mettre en forme la gallerie du photographe
 function galleryCardTemplate(media, photographerId) {
-  const mediaFactory = media.hasOwnProperty("image")
+  const mediaFactory = Object.prototype.hasOwnProperty.call(media, "image")
     ? new MediaFactory(media.image, "image")
     : new MediaFactory(media.video, "video");
 

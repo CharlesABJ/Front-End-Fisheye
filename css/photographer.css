@@ -8,6 +8,10 @@ body.modal-is-open {
     overflow: hidden;
 }
 
+main {
+    position: relative;
+}
+
 /* Photographer Header */
 .photograph-header {
     background-color: #FAFAFA;
@@ -80,6 +84,18 @@ body.modal-is-open {
     border-radius: 50%;
 }
 
+
+.counter-likes {
+    background: var(--third-color);
+    width: max-content;
+    padding: 0.7rem 1rem;
+    display: flex;
+    gap: 2rem;
+    border-radius: 5px;
+    position: fixed;
+    bottom: 1rem;
+    right: 2rem;
+}
 
 /* Photographer Medias */
 
@@ -199,7 +215,7 @@ body.modal-is-open {
 #contact_modal .modal {
     position: absolute;
     border-radius: 5px;
-    background-color: #DB8876;
+    background-color: var(--third-color);
     width: 50%;
     display: flex;
     flex-direction: column;

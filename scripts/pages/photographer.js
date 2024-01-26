@@ -69,8 +69,10 @@ function displayPhotographerMedia(medias, photographerId) {
     handleCarrousel();
   }
 }
+
 // Mise en place de la logique de like
-function handleLikes() {
+function handleLikes(photographer) {
+  counterLikesContainer = document.querySelector(".counter-likes");
   const likesCounter = document.querySelectorAll(
     "#photograph-medias .gallery-cards .card .counter"
   );
@@ -78,26 +80,58 @@ function handleLikes() {
     "#photograph-medias .gallery-cards .card .fa-solid.fa-heart"
   );
 
-  likes.forEach((like) =>
+  // Incrémentation du nombre de likes
+  likes.forEach((like) => {
     like.addEventListener("click", function () {
-      likesCounter.forEach((counter) => {
-        if (counter.getAttribute("data-id") === like.getAttribute("data-id")) {
-          counter.innerHTML++;
+      incrementLikes(like);
+    });
+  });
 
-          // Vérification si le nombre de likes se termine par 9
-          if (
-            (counter.innerHTML - 99) % 100 === 0 ||
-            counter.innerHTML % 100 === 0
-          ) {
-            like.classList.add("special");
-          } else {
-            like.classList.remove("special");
-          }
+  // Incrémentation du nombre de likes avec la touche entrée
+  likes.forEach((like) => {
+    like.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        incrementLikes(like);
+      }
+    });
+  });
+
+  function incrementLikes(like) {
+    likesCounter.forEach((counter) => {
+      if (counter.getAttribute("data-id") === like.getAttribute("data-id")) {
+        Number(counter.innerHTML++);
+        // Vérification si le nombre de likes se termine par 9
+        if (
+          (Number(counter.innerHTML) - 99) % 100 === 0 ||
+          Number(counter.innerHTML) % 100 === 0
+        ) {
+          like.classList.add("special");
+        } else {
+          like.classList.remove("special");
         }
-      });
-    })
-  );
+      }
+    });
+    // Calcul du nombre total de likes
+    let totalLikes = 0;
+    likesCounter.forEach((counter) => {
+      totalLikes += Number(counter.innerHTML);
+    });
+    counterLikesContainer.innerHTML = `
+    <p>${totalLikes.toLocaleString()} <i tabindex="0" class="fa-solid fa-heart"></i></p> 
+    <p>${photographer.price}€ / jour</p>
+    `;
+  }
+  // Calcul du nombre total de likes
+  let totalLikes = 0;
+  likesCounter.forEach((counter) => {
+    totalLikes += Number(counter.innerHTML);
+  });
+  counterLikesContainer.innerHTML = `
+  <p>${totalLikes.toLocaleString()} <i tabindex="0" class="fa-solid fa-heart"></i></p> 
+  <p>${photographer.price}€ / jour</p>
+  `;
 }
+
 //Mise en place du carrousel
 function handleCarrousel() {
   const main = document.querySelector("main");
@@ -127,7 +161,8 @@ function handleCarrousel() {
     const mediaCloneInModal = media.cloneNode(true);
     galleryModal.append(mediaCloneInModal);
   }
-
+  const videos = document.querySelectorAll("#gallery-modal .modal .card video");
+  videos.forEach((video) => video.setAttribute("controls", "true"));
   // Ajouter les événements aux éléments clonés
   const mediasOfGalleryCloneInModal = document.querySelectorAll(
     "#gallery-modal .modal .card"
@@ -261,12 +296,12 @@ function handleCarrousel() {
 async function init() {
   // Récupère les datas des photographes
   id = getPhotographerIdFromUrl();
-  const resultat = await getPhotographer(id);
-  await displayPhotographerHeader(resultat);
+  const photographer = await getPhotographer(id);
+  await displayPhotographerHeader(photographer);
   medias = await getPhotographerMedia(id);
 
   await displayPhotographerMedia(medias, id);
-  handleLikes();
+  handleLikes(photographer);
   handleModal();
   handleCarrousel();
 }
