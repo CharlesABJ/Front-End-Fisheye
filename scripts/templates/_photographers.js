@@ -14,6 +14,7 @@ function photographerTemplate(data) {
     const span = document.createElement("span");
     a.setAttribute("href", `photographer.html?id=${id}`);
     // Donner des attributs et des valeurs aux balises
+
     cover.setAttribute("class", "cover");
     img.setAttribute("src", picture);
     h2.innerHTML = name;

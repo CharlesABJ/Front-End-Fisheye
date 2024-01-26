@@ -1,5 +1,13 @@
 // index.js
+document.addEventListener("keydown", handleKeyPress);
 
+function handleKeyPress(event) {
+  if (event.key === "Enter") {
+    event.preventDefault(); // Empêche le comportement par défaut de la touche "Enter"
+    document.activeElement.click();
+    console.log("test");
+  }
+}
 // Obtenir les données de tous les photographes
 async function getPhotographersData() {
   const apiPhotographers = "./data/photographers.json";

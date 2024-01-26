@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
   <link href="css/style.css" rel="stylesheet" type="text/css" />
@@ -11,7 +11,7 @@
   <script src="https://kit.fontawesome.com/17add87f34.js" crossorigin="anonymous"></script>
 
   <meta name="description" content="Fisheye, retrouvez de talentueux photographes">
-  <title>Fisheye - photographe </title>
+  <title class="photographer-page"></title>
 
 </head>
 
@@ -23,10 +23,10 @@
     <div class="photograph-header">
       <!-- Afficher dynamiquement le header du photographe ici -->
     </div>
-    <section id="photograph-medias">
+    <section tabindex="-1" id="photograph-medias">
       <div class="tri-selector">
         <h3>Trier par</h3>
-        <select name="" id="critere-tri">
+        <select aria-label="critère de tri" name="critere-tri" id="critere-tri">
           <option value="popularité">Popularité</option>
           <option value="date">Date</option>
           <option value="titre">Titre</option>
@@ -42,23 +42,24 @@
     <div class="modal">
       <div class="top">
         <h2>Contactez-moi</h2>
-        <img src="assets/icons/close.svg" />
+        <img aria-label="Fermer" tabindex="2" src="assets/icons/close.svg" alt="Fermer" />
       </div>
 
       <form>
         <!-- input avec regex pattern -->
 
         <label for="firstname">Prénom</label>
-        <input name="Prénom" type="text" pattern="([A-ÿ]{2,18}([ ][A-ÿ]{2,18})*)" id="firstname" required />
-        <label for="name">Nom</label>
-        <input name="Nom" type="text" pattern="([A-ÿ]{2,18}([ ][A-ÿ]{2,18})*)" id="name" required />
-        <label for="mail">Email</label>
-        <input name="Email" type="email" pattern="[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*@[a-zA-Z]+(\.[a-zA-Z]+)*" id="mail"
+        <input tabindex="0" name="Prénom" type="text" pattern="([A-ÿ]{2,18}([ ][A-ÿ]{2,18})*)" id="firstname"
           required />
+        <label for="name">Nom</label>
+        <input tabindex="0" name="Nom" type="text" pattern="([A-ÿ]{2,18}([ ][A-ÿ]{2,18})*)" id="name" required />
+        <label for="mail">Email</label>
+        <input tabindex="0" name="Email" type="email" pattern="[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*@[a-zA-Z]+(\.[a-zA-Z]+)*"
+          id="mail" required />
         <label for="message">Votre message</label>
-        <textarea name="Message" id="message" required></textarea>
+        <textarea tabindex="0" name="Message" id="message" required></textarea>
 
-        <button type="submit" class="contact_button2">Envoyer</button>
+        <button tabindex="0" type="submit" class="contact_button2">Envoyer</button>
       </form>
 
 
@@ -69,9 +70,9 @@
   <div id="gallery-modal" class="modal-container">
     <div class="overlay"></div>
     <div class="modal">
-      <i class="fa-solid fa-xmark close-media"></i>
-      <i class="fa-solid fa-chevron-left prev-media"></i>
-      <i class="fa-solid fa-chevron-right next-media"></i>
+      <i class="fa-solid fa-xmark close-media" tabindex="3"></i>
+      <i class="fa-solid fa-chevron-left prev-media" tabindex="1"></i>
+      <i class="fa-solid fa-chevron-right next-media" tabindex="2"></i>
 
     </div>
   </div>

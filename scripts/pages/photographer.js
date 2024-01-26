@@ -1,16 +1,12 @@
 const apiPhotographer = "./data/photographers.json";
 
-// Obtenir l'ID du photographe à partir de l'URL
+// Obtenir l'ID de l'URL
 function getPhotographerIdFromUrl() {
   const urlParams = new URLSearchParams(location.search);
   return urlParams.get("id");
 }
 
-// On dit que l'ID du photographe affiché correspondra à celui de la page
-function isCurrentPhotographer(id) {
-  return id === getPhotographerIdFromUrl();
-}
-// Obtenir les infos du photographe et on donne ainsi une valeur au parametre id de la fonction isCurrentPhotographer
+// On cherche dans la base de données le photographe qui a le même id que celui de l'URL
 async function getPhotographer(id) {
   const response = await fetch(apiPhotographer);
   let data = await response.json();
@@ -18,14 +14,15 @@ async function getPhotographer(id) {
   const photographer = photographers.find((p) => p.id.toString() === id);
   return photographer;
 }
+
 // Afficher les infos du photographe
 async function displayPhotographerHeader(photographer) {
+  document.querySelector("title").innerHTML = `Fisheye - ${photographer.name}`;
   const photographerHeader = document.querySelector(".photograph-header");
   const photographerPageModel =
     photographerHeaderTemplate(photographer).photographerHeaderModel();
   photographerHeader.innerHTML = photographerPageModel;
 }
-
 // Obtenir les médias du photographe
 async function getPhotographerMedia(id) {
   const response = await fetch(apiPhotographer);
@@ -33,76 +30,45 @@ async function getPhotographerMedia(id) {
   let photographersMedias = data.media.filter(
     (m) => m.photographerId.toString() === id
   );
+  photographersMedias.sort((a, b) => b.likes - a.likes);
   return photographersMedias;
 }
 
 // Afficher les médias du photographe
 function displayPhotographerMedia(medias, photographerId) {
   const galleryCards = document.querySelector(".gallery-cards");
-  galleryCards.innerHTML = "";
-  medias.forEach((media) => {
-    galleryCards.insertAdjacentHTML(
-      "afterbegin",
-      galleryCardTemplate(media, photographerId)
-    );
-  });
-  getSelectedMedia();
-}
 
-let id;
-let medias;
-const critereTri = document.querySelector("#critere-tri");
-critereTri.addEventListener("change", trieMedias);
-function trieMedias() {
-  switch (critereTri.value) {
-    case "popularité":
-      medias.sort((a, b) => b.likes - a.likes);
-      break;
-    case "date":
-      medias.sort((a, b) => new Date(b.date) - new Date(a.date));
-      break;
-    case "titre":
-      medias.sort((a, b) => a.title.localeCompare(b.title));
-      break;
-    default:
-      console.log(critereTri.value);
-      break;
-  }
-  const mediasOfGalleryCloneInModal = document.querySelectorAll(
-    "#gallery-modal .modal .card"
-  );
-  mediasOfGalleryCloneInModal.forEach((media) => media.remove());
-  displayPhotographerMedia(medias, id);
-  handleCarrousel();
-}
+  galleryCards.innerHTML = medias
+    .map((media) => galleryCardTemplate(media, photographerId))
+    .join("");
 
-async function init() {
-  // Récupère les datas des photographes
-  id = getPhotographerIdFromUrl();
-  const resultat = await getPhotographer(id);
-  await displayPhotographerHeader(resultat);
-  medias = await getPhotographerMedia(id);
+  const critereTri = document.querySelector("#critere-tri");
+  critereTri.addEventListener("change", trieMedias);
 
-  const mediaFactory = new MediaFactory();
-  const media = mediaFactory.getMedia("img.jpg", "image");
-  await displayPhotographerMedia(medias, id);
-  handleLikes();
-  handleModal();
-  handleCarrousel();
-}
+  function trieMedias() {
+    switch (critereTri.value) {
+      case "popularité":
+        medias.sort((a, b) => b.likes - a.likes);
+        break;
+      case "date":
+        medias.sort((a, b) => new Date(b.date) - new Date(a.date));
+        break;
+      case "titre":
+        medias.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      default:
+        console.log(critereTri.value);
+        break;
+    }
 
-function getSelectedMedia() {
-  const cards = document.querySelectorAll(".card");
-  cards.forEach((card) => card.addEventListener("click", openLightBox));
-  function openLightBox(e) {
-    // Récuperer le parent le plus proche ayant le selecteur .card
-    const card = e.target.closest(".card");
-    // const mediaId = card.dataset.id;
-    const mediaId = card.getAttribute("data-id");
+    galleryCards.innerHTML = medias
+      .map((media) => galleryCardTemplate(media, photographerId))
+      .join("");
+
+    handleLikes();
+    handleCarrousel();
   }
 }
-init();
-
 // Mise en place de la logique de like
 function handleLikes() {
   const likesCounter = document.querySelectorAll(
@@ -132,17 +98,22 @@ function handleLikes() {
     })
   );
 }
-
 //Mise en place du carrousel
 function handleCarrousel() {
+  const main = document.querySelector("main");
+  const contactModal = document.getElementById("contact_modal");
   const body = document.querySelector("body");
   const mediasOfGallery = document.querySelectorAll(
     "#photograph-medias .gallery-cards .card"
   );
   const galleryModalContainer = document.querySelector("#gallery-modal");
   const galleryModal = document.querySelector("#gallery-modal .modal");
+  // Supprimer les éléments .card existants dans la modale
+  const existingCards = galleryModal.querySelectorAll(".card");
+  existingCards.forEach((card) => card.remove());
 
   const closeGalleryModalBtn = document.querySelector(".close-media");
+  const overlay = document.querySelector("#gallery-modal .overlay");
 
   const prevButton = document.querySelector(".prev-media");
   const nextButton = document.querySelector(".next-media");
@@ -151,40 +122,16 @@ function handleCarrousel() {
   );
   let counter = 0;
 
-  //Ouvrir la modale
-  for (let trigger of modalTriggers) {
-    trigger.addEventListener("click", function (e) {
-      if (!e.target.classList.contains("fa-heart")) {
-        body.classList.add("modal-is-open");
-        galleryModalContainer.classList.add("modal-is-open");
-      }
-    });
-  }
-
-  //Fermer la modale
-
-  closeGalleryModalBtn.addEventListener("click", closeGalleryModal);
-
-  function closeGalleryModal() {
-    galleryModalContainer.classList.remove("modal-is-open");
-    body.classList.remove("modal-is-open");
-  }
-
-  //Cloner les images de  gallery dans la modale
-
+  // Cloner les images de gallery dans la modale
   for (let media of mediasOfGallery) {
     const mediaCloneInModal = media.cloneNode(true);
     galleryModal.append(mediaCloneInModal);
   }
 
+  // Ajouter les événements aux éléments clonés
   const mediasOfGalleryCloneInModal = document.querySelectorAll(
     "#gallery-modal .modal .card"
   );
-  let x = 0;
-
-  for (let media of mediasOfGalleryCloneInModal) {
-    media.setAttribute("media-position", x++);
-  }
 
   for (let mediaOfGallery of mediasOfGallery) {
     mediaOfGallery.addEventListener("click", function () {
@@ -202,8 +149,55 @@ function handleCarrousel() {
     });
   }
 
-  //Afficher le media suivant
+  // Ouvrir la modale
+  for (let trigger of modalTriggers) {
+    trigger.addEventListener("click", function (e) {
+      if (!e.target.classList.contains("fa-heart")) {
+        body.classList.add("modal-is-open");
+        galleryModalContainer.classList.add("modal-is-open");
+        main.setAttribute("aria-hidden", "true");
+        contactModal.setAttribute("aria-hidden", "true");
+      }
+    });
+  }
+
+  // Fermer la modale
+  closeGalleryModalBtn.addEventListener("click", closeGalleryModal);
+  overlay.addEventListener("click", closeGalleryModal);
+
+  function closeGalleryModal() {
+    galleryModalContainer.classList.remove("modal-is-open");
+    body.classList.remove("modal-is-open");
+    main.setAttribute("aria-hidden", "false");
+    contactModal.setAttribute("aria-hidden", "false");
+  }
+
+  // Afficher le media suivant
+  nextButton.addEventListener("click", function () {
+    if (counter < mediasOfGalleryCloneInModal.length - 1) {
+      counter++;
+    } else {
+      counter = 0;
+    }
+    mediasOfGalleryCloneInModal[counter].classList.add("media-active-in-modal");
+  });
+
+  // Afficher le media précédent
+  prevButton.addEventListener("click", function () {
+    if (counter > 0) {
+      counter--;
+    } else {
+      counter = mediasOfGalleryCloneInModal.length - 1;
+    }
+    mediasOfGalleryCloneInModal[counter].classList.add("media-active-in-modal");
+  });
+
+  // Afficher le media suivant
   function nextMedia() {
+    const mediasOfGalleryCloneInModal = document.querySelectorAll(
+      "#gallery-modal .modal .card"
+    );
+
     for (let media of mediasOfGalleryCloneInModal) {
       media.classList.remove("media-active-in-modal");
     }
@@ -217,8 +211,12 @@ function handleCarrousel() {
   }
   nextButton.addEventListener("click", nextMedia);
 
-  //Afficher le media précédent
+  // Afficher le media précédent
   function prevMedia() {
+    const mediasOfGalleryCloneInModal = document.querySelectorAll(
+      "#gallery-modal .modal .card"
+    );
+
     for (let media of mediasOfGalleryCloneInModal) {
       media.classList.remove("media-active-in-modal");
     }
@@ -260,3 +258,17 @@ function handleCarrousel() {
     }
   });
 }
+async function init() {
+  // Récupère les datas des photographes
+  id = getPhotographerIdFromUrl();
+  const resultat = await getPhotographer(id);
+  await displayPhotographerHeader(resultat);
+  medias = await getPhotographerMedia(id);
+
+  await displayPhotographerMedia(medias, id);
+  handleLikes();
+  handleModal();
+  handleCarrousel();
+}
+
+init();

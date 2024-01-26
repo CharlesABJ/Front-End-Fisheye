@@ -4,14 +4,14 @@ function photographerHeaderTemplate(data) {
   function photographerHeaderModel() {
     const photographerHeader = `
     <div class="presentation">
-      <h2>${name}</h2>
-      <h3>${city}, ${country}</h3>
+      <h1>${name}</h1>
+      <h2>${city}, ${country}</h2>
       <p>${tagline}</p>
     </div>
     <div class="profil-and-contact">
     <button class="contact_button">Contactez-moi</button>
     <a target="_blank" href="assets/photographers/${portrait}" class="profile">
-      <img src="assets/photographers/${portrait}" alt="${name}">
+      <img src="assets/photographers/${portrait}" alt="${name}" loading="lazy">
     </a>
     </div>`;
 
@@ -27,15 +27,17 @@ function galleryCardTemplate(media, photographerId) {
     : new MediaFactory(media.video, "video");
 
   const card = `
-  <div class="card" data-id="${media.id}">
+  <div tabindex=0 class="card" data-id="${media.id}">
     <div class="cover">
-     ${mediaFactory.getMedia(photographerId)}
+     ${mediaFactory.getMedia(photographerId, media)}
     </div>
     <div class="content">
-        <h4>${media.title}</h4>
-        <p><span data-id="${media.id}" class="counter">${
+        <h3>${media.title}</h3>
+        <h4><span data-id="${media.id}" class="counter">${
     media.likes
-  }</span> <i data-id="${media.id}" class="fa-solid fa-heart"></i></p>
+  }</span> <i tabindex="0" data-id="${
+    media.id
+  }" class="fa-solid fa-heart"></i></h4>
     </div>
     </div>`;
   return card;
@@ -46,12 +48,12 @@ class MediaFactory {
     this.src = src;
     this.type = type;
   }
-  getMedia(photographerId) {
+  getMedia(photographerId, media) {
     if (this.type === "image") {
-      return `<img src = "./assets/${photographerId}/${this.src}" alt= "${this.src}" loading="lazy">`;
+      return `<img src = "./assets/${photographerId}/${this.src}" alt= "${media.title}" loading="lazy">`;
     }
     if (this.type === "video") {
-      return `<video controls src = "./assets/${photographerId}/${this.src}" loading="lazy"> </video>`;
+      return `<video src = "./assets/${photographerId}/${this.src}" loading="lazy"> </video>`;
     }
   }
 }

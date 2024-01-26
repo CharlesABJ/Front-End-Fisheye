@@ -1,5 +1,7 @@
 body {
     position: relative;
+    max-width: 1920px;
+    min-width: 320px;
 }
 
 body.modal-is-open {
@@ -20,13 +22,13 @@ body.modal-is-open {
     width: 100%;
 }
 
-.photograph-header .presentation h2 {
+.photograph-header .presentation h1 {
     color: var(--secondary-color);
     font-size: 4rem;
     margin: 0;
 }
 
-.photograph-header .presentation h3 {
+.photograph-header .presentation h2 {
     color: var(--primary-color);
     ;
     font-size: 1.5rem;
@@ -95,7 +97,7 @@ body.modal-is-open {
 
 #photograph-medias .tri-selector select {
     font-size: 1.125rem;
-    padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+    padding: 0.5rem;
     color: #fff;
     background: var(--primary-color);
     border-radius: 5px;
@@ -133,7 +135,7 @@ body.modal-is-open {
 }
 
 #photograph-medias .gallery-cards .card .cover {
-    height: 85%;
+    height: 90%;
 }
 
 #photograph-medias .gallery-cards .card .cover img,
@@ -148,24 +150,31 @@ body.modal-is-open {
 }
 
 #photograph-medias .gallery-cards .card .content {
-    height: 15%;
+    height: 10%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     color: var(--primary-color);
     font-size: 1.5rem;
+    margin-block: 0.4em;
 }
 
-#photograph-medias .gallery-cards .card .content p i:active {
+#photograph-medias .gallery-cards .card .content h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#photograph-medias .gallery-cards .card .content h4 i:active {
     transform: scale(1.25);
     transition: rotate 3.5s ease-in-out;
 }
 
-#photograph-medias .gallery-cards .card .content p i.special {
+#photograph-medias .gallery-cards .card .content h4 i.special {
     transition: 1.3s;
 }
 
-#photograph-medias .gallery-cards .card .content p i.special:active {
+#photograph-medias .gallery-cards .card .content h4 i.special:active {
     transform: scale(1.25) rotate(-360deg);
     transition: rotate 3.5s ease-in-out;
 }
@@ -381,6 +390,44 @@ body.modal-is-open {
     #photograph-medias .gallery-cards .card {
         height: 360px;
     }
+
+    #contact_modal .modal {
+        width: 90%;
+    }
+
+    #contact_modal .modal .top h2 {
+        font-size: 2rem;
+    }
+
+    #contact_modal form label {
+        font-size: 1.5rem;
+    }
+
+    #contact_modal form input {
+        font-size: 1.25rem;
+    }
+
+    #contact_modal .modal .top img {
+        width: 25px;
+        height: 25px;
+    }
+
+    #gallery-modal .card {
+        width: 85%;
+    }
+
+    #gallery-modal i.close-media {
+        top: 1%;
+        right: 2%;
+    }
+
+    #gallery-modal i.prev-media {
+        left: 2%;
+    }
+
+    #gallery-modal i.next-media {
+        right: 2%;
+    }
 }
 
 
@@ -395,6 +442,11 @@ body.modal-is-open {
     .photograph-header .presentation {
         text-align: center;
     }
+
+    .photograph-header .presentation h1 {
+        font-size: 2.25rem;
+    }
+
 
     .photograph-header .presentation h2 {
         font-size: 1.5rem;
@@ -417,6 +469,24 @@ body.modal-is-open {
         font-size: 1rem;
     }
 
+    #contact_modal form input {
+        height: 2.5rem;
+    }
+
+    #contact_modal form input,
+    #contact_modal form textarea {
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+
+    #contact_modal .modal .top h2 {
+        font-size: 1.6rem;
+    }
+
+    #contact_modal .modal .top img {
+        width: 18px;
+        height: 18px;
+    }
 
     #photograph-medias {
         margin-inline: 1rem;
@@ -431,8 +501,45 @@ body.modal-is-open {
     #photograph-medias .gallery-cards {
         grid-template-columns: 1fr;
     }
+
+    #gallery-modal .modal {
+        height: 70%;
+    }
+
+    #gallery-modal .modal .card {
+        width: 90%;
+    }
+
+    #gallery-modal .card .content h3 {
+        font-size: 1.6rem;
+    }
+
+    #gallery-modal i.close-media {
+        top: -9%;
+        right: 0%;
+        background: white;
+        border-radius: 50%;
+        padding: 0.4rem 0.5rem;
+        font-size: 1.2rem;
+        border: solid 1px whitesmoke;
+    }
+
+    #gallery-modal i.next-media,
+    #gallery-modal i.prev-media {
+        top: 105%;
+        background: white;
+        border-radius: 12px;
+        padding: 0.4rem 0.6rem;
+        font-size: 1.2rem;
+        border: solid 1px whitesmoke;
+    }
+
 }
 
 .modal-is-open {
     display: block !important;
+}
+
+*:focus-visible {
+    outline: 5px dashed var(--primary-color);
 }
