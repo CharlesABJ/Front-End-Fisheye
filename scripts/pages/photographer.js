@@ -1,5 +1,6 @@
 const apiPhotographer = "./data/photographers.json";
-
+let photographer;
+let totalLikes = 0;
 // Obtenir l'ID de l'URL
 function getPhotographerIdFromUrl() {
   const urlParams = new URLSearchParams(location.search);
@@ -65,24 +66,35 @@ function displayPhotographerMedia(medias, photographerId) {
       .map((media) => galleryCardTemplate(media, photographerId))
       .join("");
 
-    handleLikes();
+    handleLikes(photographer);
     handleCarrousel();
   }
 }
 
+let counterLikesContainer = document.querySelector(".counter-likes");
+
 // Mise en place de la logique de like
 function handleLikes(photographer) {
-  counterLikesContainer = document.querySelector(".counter-likes");
   const likesCounter = document.querySelectorAll(
     "#photograph-medias .gallery-cards .card .counter"
   );
   const likes = document.querySelectorAll(
     "#photograph-medias .gallery-cards .card .fa-solid.fa-heart"
   );
+  totalLikes = 0;
+  // Calcul du nombre total de likes
+  likesCounter.forEach((counter) => {
+    totalLikes += Number(counter.innerHTML);
+  });
+  counterLikesContainer.innerHTML = `
+  <p>${totalLikes.toLocaleString()} <i tabindex="0" class="fa-solid fa-heart"></i></p> 
+  <p>${photographer.price}€ / jour</p>
+  `;
+
   // Incrémentation du nombre de likes
   likes.forEach((like) => {
     like.addEventListener("click", function () {
-      incrementLikes(like);
+      incrementLikes(like, photographer);
     });
   });
 
@@ -90,16 +102,16 @@ function handleLikes(photographer) {
   likes.forEach((like) => {
     like.addEventListener("keydown", function (e) {
       if (e.key === "Enter") {
-        incrementLikes(like);
+        incrementLikes(like, photographer);
       }
     });
   });
 
-  function incrementLikes(like) {
+  function incrementLikes(like, photographer) {
     likesCounter.forEach((counter) => {
       if (counter.getAttribute("data-id") === like.getAttribute("data-id")) {
-        Number(counter.innerHTML++);
-        // Vérification si le nombre de likes se termine par 9
+        counter.innerHTML++;
+        Number(counter.innerHTML);
         if (
           (Number(counter.innerHTML) - 99) % 100 === 0 ||
           Number(counter.innerHTML) % 100 === 0
@@ -110,26 +122,16 @@ function handleLikes(photographer) {
         }
       }
     });
-    // Calcul du nombre total de likes
-    let totalLikes = 0;
+    // Mettre à jour totalLikes
+    totalLikes = 0;
     likesCounter.forEach((counter) => {
       totalLikes += Number(counter.innerHTML);
     });
     counterLikesContainer.innerHTML = `
-    <p>${totalLikes.toLocaleString()} <i tabindex="0" class="fa-solid fa-heart"></i></p> 
-    <p>${photographer.price}€ / jour</p>
-    `;
-  }
-  // Calcul du nombre total de likes
-  let totalLikes = 0;
-  likesCounter.forEach((counter) => {
-    totalLikes += Number(counter.innerHTML);
-  });
-
-  counterLikesContainer.innerHTML = `
   <p>${totalLikes.toLocaleString()} <i tabindex="0" class="fa-solid fa-heart"></i></p> 
   <p>${photographer.price}€ / jour</p>
   `;
+  }
 
   // const totalLikesIcon = document.querySelector(".counter-likes p i");
 
@@ -216,26 +218,6 @@ function handleCarrousel() {
   }
 
   // Afficher le media suivant
-  nextButton.addEventListener("click", function () {
-    if (counter < mediasOfGalleryCloneInModal.length - 1) {
-      counter++;
-    } else {
-      counter = 0;
-    }
-    mediasOfGalleryCloneInModal[counter].classList.add("media-active-in-modal");
-  });
-
-  // Afficher le media précédent
-  prevButton.addEventListener("click", function () {
-    if (counter > 0) {
-      counter--;
-    } else {
-      counter = mediasOfGalleryCloneInModal.length - 1;
-    }
-    mediasOfGalleryCloneInModal[counter].classList.add("media-active-in-modal");
-  });
-
-  // Afficher le media suivant
   function nextMedia() {
     const mediasOfGalleryCloneInModal = document.querySelectorAll(
       "#gallery-modal .modal .card"
@@ -301,10 +283,13 @@ function handleCarrousel() {
     }
   });
 }
+
 async function init() {
   // Récupère les datas des photographes
+
   id = getPhotographerIdFromUrl();
-  const photographer = await getPhotographer(id);
+
+  photographer = await getPhotographer(id);
   await displayPhotographerHeader(photographer);
   medias = await getPhotographerMedia(id);
 
