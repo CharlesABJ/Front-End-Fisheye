@@ -16,18 +16,18 @@ function handleModal() {
   function displayModal() {
     body.classList.add("modal-is-open");
     contactModal.classList.add("modal-is-open");
-    main.setAttribute("aria-hidden", "true");
-    galleryModalContainer.setAttribute("aria-hidden", "true");
-    main.setAttribute("tabindex", "-1");
-    galleryModalContainer.setAttribute("tabindex", "-1");
+    // main.setAttribute("aria-hidden", "true");
+    // galleryModalContainer.setAttribute("aria-hidden", "true");
+    // main.setAttribute("tabindex", "-1");
+    // galleryModalContainer.setAttribute("tabindex", "-1");
   }
 
   function closeModal() {
     contactModal.classList.remove("modal-is-open");
     body.classList.remove("modal-is-open");
-    main.setAttribute("aria-hidden", "false");
-    galleryModalContainer.setAttribute("aria-hidden", "false");
-    main.setAttribute("tabindex", "0");
+    // main.setAttribute("aria-hidden", "false");
+    // galleryModalContainer.setAttribute("aria-hidden", "false");
+    // main.setAttribute("tabindex", "0");
   }
 
   document.addEventListener("keydown", (e) => {

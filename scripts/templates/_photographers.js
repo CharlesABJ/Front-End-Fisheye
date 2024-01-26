@@ -17,6 +17,7 @@ function photographerTemplate(data) {
 
     cover.setAttribute("class", "cover");
     img.setAttribute("src", picture);
+    img.setAttribute("alt", name);
     h2.innerHTML = name;
     h3.innerHTML = `${city}, ${country}`;
     p.innerHTML = tagline;

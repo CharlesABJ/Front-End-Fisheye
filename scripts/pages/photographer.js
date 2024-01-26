@@ -79,7 +79,6 @@ function handleLikes(photographer) {
   const likes = document.querySelectorAll(
     "#photograph-medias .gallery-cards .card .fa-solid.fa-heart"
   );
-
   // Incrémentation du nombre de likes
   likes.forEach((like) => {
     like.addEventListener("click", function () {
@@ -126,10 +125,19 @@ function handleLikes(photographer) {
   likesCounter.forEach((counter) => {
     totalLikes += Number(counter.innerHTML);
   });
+
   counterLikesContainer.innerHTML = `
   <p>${totalLikes.toLocaleString()} <i tabindex="0" class="fa-solid fa-heart"></i></p> 
   <p>${photographer.price}€ / jour</p>
   `;
+
+  // const totalLikesIcon = document.querySelector(".counter-likes p i");
+
+  // if (totalLikes % 1000 === 999 || totalLikes % 1000 === 0) {
+  //   totalLikesIcon.classList.add("special");
+  // } else {
+  //   totalLikesIcon.classList.remove("special");
+  // }
 }
 
 //Mise en place du carrousel
@@ -190,8 +198,8 @@ function handleCarrousel() {
       if (!e.target.classList.contains("fa-heart")) {
         body.classList.add("modal-is-open");
         galleryModalContainer.classList.add("modal-is-open");
-        main.setAttribute("aria-hidden", "true");
-        contactModal.setAttribute("aria-hidden", "true");
+        // main.setAttribute("aria-hidden", "true");
+        // contactModal.setAttribute("aria-hidden", "true");
       }
     });
   }
@@ -203,8 +211,8 @@ function handleCarrousel() {
   function closeGalleryModal() {
     galleryModalContainer.classList.remove("modal-is-open");
     body.classList.remove("modal-is-open");
-    main.setAttribute("aria-hidden", "false");
-    contactModal.setAttribute("aria-hidden", "false");
+    // main.setAttribute("aria-hidden", "false");
+    // contactModal.setAttribute("aria-hidden", "false");
   }
 
   // Afficher le media suivant
