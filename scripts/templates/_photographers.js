@@ -1,6 +1,6 @@
 function photographerTemplate(data) {
   const { portrait, name, city, country, tagline, price, id } = data;
-  const picture = `assets/photographers/${portrait}`;
+  const picture = `./assets/photographers/${portrait}`;
   // Mettre en forme le model d'un photographe
   function photographerModel() {
     // Création des balises

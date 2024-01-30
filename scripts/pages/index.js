@@ -1,4 +1,5 @@
 // index.js
+
 document.addEventListener("keydown", handleKeyPress);
 
 function handleKeyPress(event) {

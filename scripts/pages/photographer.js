@@ -1,5 +1,6 @@
 const apiPhotographer = "./data/photographers.json";
 let photographer;
+let counter = 0;
 let totalLikes = 0;
 // Obtenir l'ID de l'URL
 function getPhotographerIdFromUrl() {
@@ -164,10 +165,13 @@ function handleCarrousel() {
   const modalTriggers = document.querySelectorAll(
     "#photograph-medias .gallery-cards .card"
   );
-  let counter = 0;
 
   // Cloner les images de gallery dans la modale
   for (let media of mediasOfGallery) {
+    media.setAttribute(
+      "media-position",
+      Array.from(mediasOfGallery).indexOf(media)
+    );
     const mediaCloneInModal = media.cloneNode(true);
     galleryModal.append(mediaCloneInModal);
   }
@@ -187,6 +191,8 @@ function handleCarrousel() {
         ) {
           mediaOfModal.classList.add("media-active-in-modal");
           counter = mediaOfModal.getAttribute("media-position");
+          console.log(counter);
+          console.log(Array.from(mediasOfGallery).indexOf(mediaOfGallery));
         } else {
           mediaOfModal.classList.remove("media-active-in-modal");
         }
@@ -229,10 +235,16 @@ function handleCarrousel() {
 
     if (counter < mediasOfGalleryCloneInModal.length - 1) {
       counter++;
+      console.log("counter++");
+      console.log(counter);
     } else {
       counter = 0;
+      console.log("counter0");
+      console.log(counter);
     }
     mediasOfGalleryCloneInModal[counter].classList.add("media-active-in-modal");
+    console.log(mediasOfGalleryCloneInModal.length);
+    console.log(counter);
   }
   nextButton.addEventListener("click", nextMedia);
 
